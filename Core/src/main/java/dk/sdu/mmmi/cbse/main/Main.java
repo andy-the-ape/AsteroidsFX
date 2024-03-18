@@ -17,6 +17,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -35,19 +37,20 @@ public class Main extends Application {
     @Override
     public void start(Stage window) throws Exception {
         Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        text.setFill(Color.WHITE);
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.LEFT)) {
-                gameData.getKeys().setKey(GameKeys.LEFT, true);
+                gameData.getKeys().setKey(GameKeys.A, true);
             }
             if (event.getCode().equals(KeyCode.RIGHT)) {
-                gameData.getKeys().setKey(GameKeys.RIGHT, true);
+                gameData.getKeys().setKey(GameKeys.D, true);
             }
             if (event.getCode().equals(KeyCode.UP)) {
-                gameData.getKeys().setKey(GameKeys.UP, true);
+                gameData.getKeys().setKey(GameKeys.W, true);
             }
             if (event.getCode().equals(KeyCode.SPACE)) {
                 gameData.getKeys().setKey(GameKeys.SPACE, true);
@@ -55,13 +58,13 @@ public class Main extends Application {
         });
         scene.setOnKeyReleased(event -> {
             if (event.getCode().equals(KeyCode.LEFT)) {
-                gameData.getKeys().setKey(GameKeys.LEFT, false);
+                gameData.getKeys().setKey(GameKeys.A, false);
             }
             if (event.getCode().equals(KeyCode.RIGHT)) {
-                gameData.getKeys().setKey(GameKeys.RIGHT, false);
+                gameData.getKeys().setKey(GameKeys.D, false);
             }
             if (event.getCode().equals(KeyCode.UP)) {
-                gameData.getKeys().setKey(GameKeys.UP, false);
+                gameData.getKeys().setKey(GameKeys.W, false);
             }
             if (event.getCode().equals(KeyCode.SPACE)) {
                 gameData.getKeys().setKey(GameKeys.SPACE, false);
@@ -124,6 +127,7 @@ public class Main extends Application {
             polygon.setTranslateX(entity.getX());
             polygon.setTranslateY(entity.getY());
             polygon.setRotate(entity.getRotation());
+            polygon.setFill(Paint.valueOf(entity.getColor().name()));
         }
 
     }

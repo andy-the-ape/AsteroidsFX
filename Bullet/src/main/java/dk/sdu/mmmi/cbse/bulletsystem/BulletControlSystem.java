@@ -17,6 +17,14 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
             double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
             bullet.setX(bullet.getX() + changeX * 3);
             bullet.setY(bullet.getY() + changeY * 3);
+            if (
+                    (bullet.getX() > gameData.getDisplayWidth())
+                    || (bullet.getX() < 0)
+                    || (bullet.getY() > gameData.getDisplayHeight())
+                    || (bullet.getY() < 0)
+            ) {
+                world.removeEntity(bullet);
+            }
         }
     }
 
@@ -30,6 +38,7 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
         bullet.setY(shooter.getY() + changeY * 10);
         bullet.setRotation(shooter.getRotation());
         bullet.setRadius(1);
+        bullet.setColor(shooter.getColor());
         return bullet;
     }
 }
