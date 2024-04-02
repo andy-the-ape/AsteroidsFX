@@ -69,6 +69,7 @@ public class EnemyControlSystem implements IEntityProcessingService, EnemySPI {
         enemy.setPolygonCoordinates(-5,-5,10,0,-5,5,-8,0);
         setSpawnPointAndRotation(gameData, enemy);
         enemy.setColor(EntityColor.RED);
+        enemy.setRadius(8);
         return enemy;
     }
 
