@@ -41,12 +41,12 @@ public class EnemyControlSystem implements IEntityProcessingService, EnemySPI {
                 double randDirection = Math.random();
                 double randTriggerHappiness = Math.random();
 
-                if (randDirection >= 0.6) {
+                if (randDirection >= 0.7) {
                     enemy.setRotation(enemy.getRotation() + 1);
-                } else if (randDirection <= 0.4) {
+                } else if (randDirection <= 0.3) {
                     enemy.setRotation(enemy.getRotation() - 1);
                 }
-                if (randTriggerHappiness > 0.99) {
+                if (randTriggerHappiness > 0.999) {
                     getBulletSPIs().stream().findFirst().ifPresent(
                             spi -> {world.addEntity(spi.createBullet(enemy, gameData));}
                     );
@@ -54,8 +54,8 @@ public class EnemyControlSystem implements IEntityProcessingService, EnemySPI {
 
                 double changeX = Math.cos(Math.toRadians(enemy.getRotation()));
                 double changeY = Math.sin(Math.toRadians(enemy.getRotation()));
-                enemy.setX(enemy.getX() + changeX);
-                enemy.setY(enemy.getY() + changeY);
+                enemy.setX(enemy.getX() + changeX * 0.5);
+                enemy.setY(enemy.getY() + changeY * 0.5);
             }
             else {
                 world.removeEntity(enemy);
@@ -68,7 +68,6 @@ public class EnemyControlSystem implements IEntityProcessingService, EnemySPI {
         Enemy enemy = new Enemy();
         enemy.setPolygonCoordinates(-5,-5,10,0,-5,5,-8,0);
         setSpawnPointAndRotation(gameData, enemy);
-        enemy.setRotation((float) (Math.random()*180));
         enemy.setColor(EntityColor.RED);
         return enemy;
     }
