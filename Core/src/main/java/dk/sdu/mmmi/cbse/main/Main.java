@@ -42,14 +42,15 @@ public class Main extends Application {
         gameWindow.getChildren().add(text);
 
         Scene scene = new Scene(gameWindow);
+        scene.setFill(Color.BLACK);
         scene.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.LEFT)) {
+            if (event.getCode().equals(KeyCode.A)) {
                 gameData.getKeys().setKey(GameKeys.A, true);
             }
-            if (event.getCode().equals(KeyCode.RIGHT)) {
+            if (event.getCode().equals(KeyCode.D)) {
                 gameData.getKeys().setKey(GameKeys.D, true);
             }
-            if (event.getCode().equals(KeyCode.UP)) {
+            if (event.getCode().equals(KeyCode.W)) {
                 gameData.getKeys().setKey(GameKeys.W, true);
             }
             if (event.getCode().equals(KeyCode.SPACE)) {
@@ -57,13 +58,13 @@ public class Main extends Application {
             }
         });
         scene.setOnKeyReleased(event -> {
-            if (event.getCode().equals(KeyCode.LEFT)) {
+            if (event.getCode().equals(KeyCode.A)) {
                 gameData.getKeys().setKey(GameKeys.A, false);
             }
-            if (event.getCode().equals(KeyCode.RIGHT)) {
+            if (event.getCode().equals(KeyCode.D)) {
                 gameData.getKeys().setKey(GameKeys.D, false);
             }
-            if (event.getCode().equals(KeyCode.UP)) {
+            if (event.getCode().equals(KeyCode.W)) {
                 gameData.getKeys().setKey(GameKeys.W, false);
             }
             if (event.getCode().equals(KeyCode.SPACE)) {
