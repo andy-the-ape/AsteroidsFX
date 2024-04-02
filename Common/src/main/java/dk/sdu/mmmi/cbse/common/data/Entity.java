@@ -126,7 +126,7 @@ public class Entity implements Serializable {
     }
 
     public EntityColor getColor() {
-        return color.name();
+        return color;
     }
 
     public void setColor(EntityColor color) {
