@@ -24,7 +24,11 @@ public class World {
     }
 
     public void removeEntity(Entity entity) {
-        entityMap.remove(entity.getID());
+        if (entity.getColor().equals(EntityColor.GRAY)) {
+            entity.setCollided(true);
+        } else {
+            entityMap.remove(entity.getID());
+        }
     }
 
     public Collection<Entity> getEntities() {

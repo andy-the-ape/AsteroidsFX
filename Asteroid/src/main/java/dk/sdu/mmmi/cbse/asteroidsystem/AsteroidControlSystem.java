@@ -21,6 +21,11 @@ public class AsteroidControlSystem implements IEntityProcessingService, Asteroid
         handleAsteroidCreation(gameData, world);
 
         for (Entity asteroid : world.getEntities(Asteroid.class)) {
+            if (asteroid.isCollided()) {
+                asteroidSplitter.createSplitAsteroid(asteroid, world);
+                asteroid.setCollided(false);
+            }
+            
             double changeX = Math.cos(Math.toRadians(asteroid.getRotation()));
             double changeY = Math.sin(Math.toRadians(asteroid.getRotation()));
 
