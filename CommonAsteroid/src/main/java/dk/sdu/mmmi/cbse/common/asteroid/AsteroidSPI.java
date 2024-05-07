@@ -6,4 +6,6 @@ import dk.sdu.mmmi.cbse.common.data.World;
 
 public interface AsteroidSPI {
     Entity createAsteroid(GameData gameData);
+
+    void createSplitAsteroid(Entity e, World w);
 }
