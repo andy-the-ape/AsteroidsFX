@@ -2,62 +2,142 @@ package dk.sdu.mmmi.cbse.asteroidsystem;
 
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.data.entities.Entity;
+import dk.sdu.mmmi.cbse.common.data.entities.EntityType;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
+import java.util.Random;
+
 public class AsteroidControlSystem implements IEntityProcessingService {
+
+    Random random = new Random();
 
     @Override
     public void process(GameData gameData, World world) {
 
+
+        for (Entity entity : world.getEntities(Asteroid.class)) {
+            // Handling out of bounds
+            checkBoundsAndDeleteOutOfBoundAsteroid(gameData, world, entity);
+
+            // Movement
+            double changeX = Math.cos(Math.toRadians(entity.getRotation()));
+            double changeY = Math.sin(Math.toRadians(entity.getRotation()));
+            entity.setX(entity.getX() + changeX * entity.getSpeed());
+            entity.setY(entity.getY() + changeY * entity.getSpeed());
+        }
+
+        // Making more asteroids when needed
+        if (world.getEntities().stream()
+                .filter(e -> e.getType().equals(EntityType.ASTEROID))
+                .count() < 10) {
+            world.addEntity(createAsteroid(gameData));
+        }
+
     }
 
-    public void createAsteroid() {
-        Asteroid asteroid = new Asteroid(2,-8,0,-6,6,0,8,6,6,8,0,6,-6,0,-8,-6,-6);
+    public Entity createAsteroid(GameData gameData) {
+        double[] polygonCoordinates = {-8,0,-6,6,0,8,6,6,8,0,6,-6,0,-8,-6,-6};
+        int life = 2;
+        double speed = random.nextDouble(0.5,1.5);
+
+        Asteroid asteroid = new Asteroid(life,speed,polygonCoordinates);
+        setInitialSpawnPointAndRotation(gameData, asteroid);
+        return asteroid;
     }
 
-    public void createSplitAsteroid(Asteroid originalAsteroid) {
-        Asteroid asteroid = new Asteroid(1,-5,0,-4,4,0,5,4,4,5,0,4,-4,0,-5,-4,-4);
-        asteroid.setX(originalAsteroid.getX());
-        asteroid.setY(originalAsteroid.getY());
+    public Entity[] createSplitAsteroids(Asteroid originalAsteroid) {
+        // Split Asteroid characteristics
+        double[] polygonCoordinates = {-5,0,-4,4,0,5,4,4,5,0,4,-4,0,-5,-4,-4};
+        int life = 1;
+        double speed = originalAsteroid.getSpeed();
 
+        // How many pieces to split into?
+        int pieces = random.nextInt(2,4);
+        Entity[] splitAsteroids = new Entity[pieces];
+
+        for (int i = 0; i < splitAsteroids.length; i++) {
+            Asteroid asteroid = new Asteroid(life, speed + random.nextDouble(0.1,0.3), polygonCoordinates);
+            asteroid.setX(originalAsteroid.getX());
+            asteroid.setY(originalAsteroid.getY());
+            asteroid.setRotation(random.nextInt(360));
+        }
+
+        return splitAsteroids;
     }
 
-    public void setSpawnPointAndRotation(GameData gameData, Entity asteroid) {
+    public void setInitialSpawnPointAndRotation(GameData gameData, Entity asteroid) {
         double xBound = gameData.getDisplayWidth();
         double yBound = gameData.getDisplayHeight();
 
-        double xCoord = Math.random()*xBound;
-        double yCoord = Math.random()*yBound;
+        double xCoord = random.nextDouble(xBound);
+        double yCoord = random.nextDouble(yBound);
 
-        if (Math.random() > 0.5) {
+        double xCenter = xBound/2;
+        double yCenter = yBound/2;
+
+        // Deciding whether to spawn outside the top, left, bottom or right boundary.
+        if (random.nextInt(3) > 1) {
             //Top
             if (xCoord > yCoord) {
                 asteroid.setX(xCoord);
-                asteroid.setY(-10);
-                asteroid.setRotation((float) (Math.random()*180));
+                asteroid.setY(-20);
+
+                //Setting rotation to point it at the center of the screen
+                double angleDeg = Math.toDegrees(Math.atan2(yCenter - asteroid.getY(), xCenter - asteroid.getX()));
+                if (angleDeg < 0) {
+                    angleDeg += 360;
+                }
+                asteroid.setRotation(angleDeg);
             }
 
             //Left
             if (yCoord > xCoord) {
-                asteroid.setX(-10);
+                asteroid.setX(-20);
                 asteroid.setY(yCoord);
-                asteroid.setRotation((float) (90-(Math.random()*180)));
+
+                //Setting rotation to point it at the center of the screen
+                double angleDeg = Math.toDegrees(Math.atan2(yCenter - asteroid.getY(), xCenter - asteroid.getX()));
+                if (angleDeg < 0) {
+                    angleDeg += 360;
+                }
+                asteroid.setRotation(angleDeg);
             }
         }
         else {
             //Bottom
             if (xCoord > yCoord) {
                 asteroid.setX(xCoord);
-                asteroid.setY(yBound+10);
-                asteroid.setRotation((float) (180+(Math.random()*180)));
+                asteroid.setY(yBound + 20);
+
+                //Setting rotation to point it at the center of the screen
+                double angleDeg = Math.toDegrees(Math.atan2(yCenter - asteroid.getY(), xCenter - asteroid.getX()));
+                if (angleDeg < 0) {
+                    angleDeg += 360;
+                }
+                asteroid.setRotation(angleDeg);
             }
 
             //Right
             if (yCoord > xCoord) {
-                asteroid.setX(xBound+10);
+                asteroid.setX(xBound + 20);
                 asteroid.setY(yCoord);
-                asteroid.setRotation((float) (270-(Math.random()*180)));
+
+                //Setting rotation to point it at the center of the screen
+                double angleDeg = Math.toDegrees(Math.atan2(yCenter - asteroid.getY(), xCenter - asteroid.getX()));
+                if (angleDeg < 0) {
+                    angleDeg += 360;
+                }
+                asteroid.setRotation(angleDeg);
             }
+        }
+    }
+
+    public void checkBoundsAndDeleteOutOfBoundAsteroid(GameData gameData, World world, Entity asteroid) {
+        double xBound = gameData.getDisplayWidth();
+        double yBound = gameData.getDisplayHeight();
+
+        if (asteroid.getX() > xBound + 40 || asteroid.getX() < -40 || asteroid.getY() > yBound + 40 || asteroid.getY() < -40) {
+            world.removeEntity(asteroid);
         }
     }
 

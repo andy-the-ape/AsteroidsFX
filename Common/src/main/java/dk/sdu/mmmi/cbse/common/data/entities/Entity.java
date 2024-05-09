@@ -16,15 +16,15 @@ public class Entity implements Serializable {
     // Vector data:
     private double x;
     private double y;
-    private float dx;
-    private float dy;
-    private float rotation;
-    private float maxSpeed;
-    private float acceleration;
-    private float deceleration;
-    private float rotationSpeed;
-    private float collisionBoxRadius;
-    private float life;
+    private double dx;
+    private double dy;
+    private double rotation;
+    private double speed;
+    private double acceleration;
+    private double deceleration;
+    private double rotationSpeed;
+    private double collisionBoxRadius;
+    private int life;
 
     public String getID() {
         return ID.toString();
@@ -62,67 +62,67 @@ public class Entity implements Serializable {
         this.y = y;
     }
 
-    public float getDx() {
+    public double getDx() {
         return dx;
     }
 
-    public void setDx(float dx) {
+    public void setDx(double dx) {
         this.dx = dx;
     }
 
-    public float getDy() {
+    public double getDy() {
         return dy;
     }
 
-    public void setDy(float dy) {
+    public void setDy(double dy) {
         this.dy = dy;
     }
 
-    public float getRotation() {
+    public double getRotation() {
         return rotation;
     }
 
-    public void setRotation(float rotation) {
+    public void setRotation(double rotation) {
         this.rotation = rotation;
     }
 
-    public float getMaxSpeed() {
-        return maxSpeed;
+    public double getSpeed() {
+        return speed;
     }
 
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
+    public void setSpeed(double maxSpeed) {
+        this.speed = speed;
     }
 
-    public float getAcceleration() {
+    public double getAcceleration() {
         return acceleration;
     }
 
-    public void setAcceleration(float acceleration) {
+    public void setAcceleration(double acceleration) {
         this.acceleration = acceleration;
     }
 
-    public float getDeceleration() {
+    public double getDeceleration() {
         return deceleration;
     }
 
-    public void setDeceleration(float deceleration) {
+    public void setDeceleration(double deceleration) {
         this.deceleration = deceleration;
     }
 
-    public float getRotationSpeed() {
+    public double getRotationSpeed() {
         return rotationSpeed;
     }
 
-    public void setRotationSpeed(float rotationSpeed) {
+    public void setRotationSpeed(double rotationSpeed) {
         this.rotationSpeed = rotationSpeed;
     }
 
-    public float getCollisionBoxRadius() {
+    public double getCollisionBoxRadius() {
         return collisionBoxRadius;
     }
 
-    public void setCollisionBoxRadius(float collisionBoxRadius) {
+    public void setCollisionBoxRadius(double collisionBoxRadius) {
         this.collisionBoxRadius = collisionBoxRadius;
     }
 
@@ -134,11 +134,11 @@ public class Entity implements Serializable {
         this.color = color;
     }
 
-    public float getLife() {
+    public int getLife() {
         return life;
     }
 
-    public void setLife(float life) {
+    public void setLife(int life) {
         this.life = life;
     }
 }
