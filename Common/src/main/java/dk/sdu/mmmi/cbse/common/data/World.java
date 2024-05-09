@@ -1,15 +1,14 @@
 package dk.sdu.mmmi.cbse.common.data;
 
+import dk.sdu.mmmi.cbse.common.data.entities.Entity;
+import dk.sdu.mmmi.cbse.common.data.entities.EntityColor;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- *
- * @author jcs
- */
 public class World {
 
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
@@ -24,11 +23,7 @@ public class World {
     }
 
     public void removeEntity(Entity entity) {
-        if (entity.getColor().equals(EntityColor.GRAY)) {
-            entity.setCollided(true);
-        } else {
-            entityMap.remove(entity.getID());
-        }
+        entityMap.remove(entity.getID());
     }
 
     public Collection<Entity> getEntities() {

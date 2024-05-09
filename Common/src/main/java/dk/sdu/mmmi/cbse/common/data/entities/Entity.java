@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.common.data;
+package dk.sdu.mmmi.cbse.common.data.entities;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -7,10 +7,11 @@ public class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();
 
+    private EntityColor color;
     private EntityType type;
     
     private double[] polygonCoordinates;
-    private EntityColor color;
+
 
     // Vector data:
     private double x;
@@ -22,8 +23,8 @@ public class Entity implements Serializable {
     private float acceleration;
     private float deceleration;
     private float rotationSpeed;
-    private float radius;
-    private boolean isCollided;
+    private float collisionBoxRadius;
+    private float life;
 
     public String getID() {
         return ID.toString();
@@ -117,12 +118,12 @@ public class Entity implements Serializable {
         this.rotationSpeed = rotationSpeed;
     }
 
-    public float getRadius() {
-        return radius;
+    public float getCollisionBoxRadius() {
+        return collisionBoxRadius;
     }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
+    public void setCollisionBoxRadius(float collisionBoxRadius) {
+        this.collisionBoxRadius = collisionBoxRadius;
     }
 
     public EntityColor getColor() {
@@ -133,11 +134,11 @@ public class Entity implements Serializable {
         this.color = color;
     }
 
-    public boolean isCollided() {
-        return isCollided;
+    public float getLife() {
+        return life;
     }
 
-    public void setCollided(boolean collided) {
-        isCollided = collided;
+    public void setLife(float life) {
+        this.life = life;
     }
 }
