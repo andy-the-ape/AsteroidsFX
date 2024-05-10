@@ -19,11 +19,10 @@ public class EnemyPlugin implements IGamePluginService {
 
     @Override
     public void stop(GameData gameData, World world) {
-        for (Entity e : world.getEntities()) {
-            if (e.getClass() == Enemy.class) {
-                world.removeEntity(e);
-                System.out.println("Removed an enemy ship!");
-            }
+        // Remove all Enemy entities
+        for (Entity e : world.getEntities(Enemy.class)) {
+            world.removeEntity(e);
+            System.out.println("Removed an enemy ship!");
         }
     }
 
