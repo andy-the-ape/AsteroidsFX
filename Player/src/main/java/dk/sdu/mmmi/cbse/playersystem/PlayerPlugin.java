@@ -2,10 +2,11 @@ package dk.sdu.mmmi.cbse.playersystem;
 
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.data.entities.Entity;
+import dk.sdu.mmmi.cbse.common.player.PlayerSPI;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.player.Player;
 
-public class PlayerPlugin implements IGamePluginService {
+public class PlayerPlugin implements IGamePluginService, PlayerSPI {
     private Entity player;
     public PlayerPlugin() {
     }
@@ -30,4 +31,9 @@ public class PlayerPlugin implements IGamePluginService {
         world.removeEntity(player);
     }
 
+    @Override
+    public void resetPlayer(Entity enemy, GameData gameData) {
+        player.setX((double) gameData.getDisplayHeight() /2);
+        player.setY((double) gameData.getDisplayWidth() /2);
+    }
 }

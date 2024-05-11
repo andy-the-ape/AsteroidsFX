@@ -7,7 +7,7 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.util.Random;
 
-public class AsteroidControlSystem implements IEntityProcessingService {
+public class AsteroidControlSystem implements IEntityProcessingService, AsteroidSPI {
 
     Random random = new Random();
 
@@ -37,21 +37,34 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     public Entity createAsteroid(GameData gameData) {
         double[] polygonCoordinates = {-8,0,-6,6,0,8,6,6,8,0,6,-6,0,-8,-6,-6};
         double speed = random.nextDouble(0.2,0.6);
-        double sizeModifier = random.nextDouble(1.5,3);
+        double sizeModifier = random.nextDouble(1.8,3.5);
 
         Asteroid asteroid = new Asteroid(speed, sizeModifier);
         setInitialSpawnPointAndRotation(gameData, asteroid);
         return asteroid;
     }
 
-    public Entity[] createSplitAsteroids(Asteroid originalAsteroid) {
+    public Entity[] createSplitAsteroids(Entity originalAsteroid) {
         // How many pieces to split into?
         int pieces = random.nextInt(2,5);
         Entity[] splitAsteroids = new Entity[pieces];
 
         for (int i = 0; i < splitAsteroids.length; i++) {
-            Asteroid asteroid = new Asteroid(originalAsteroid);
-            asteroid.setRotation(random.nextInt(361));
+            int random = this.random.nextInt(3);
+            Entity asteroid;
+            switch (random) {
+                case 0:
+                    asteroid = new Asteroid(originalAsteroid, 0.6);
+                    break;
+                case 1:
+                    asteroid = new Asteroid(originalAsteroid, 0.7);
+                    break;
+                default:
+                    asteroid = new Asteroid(originalAsteroid, 0.8);
+                    break;
+            }
+            asteroid.setRotation(this.random.nextInt(361));
+            splitAsteroids[i] = asteroid;
         }
         return splitAsteroids;
     }
@@ -132,4 +145,18 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         }
     }
 
+    @Override
+    public void splitAsteroid(Entity asteroid, World world) {
+        if (asteroid.getLife() == 2) {
+            Entity[] splitAsteroids = createSplitAsteroids(asteroid);
+            world.removeEntity(asteroid);
+            for (Entity splitAsteroid : splitAsteroids) {
+                world.addEntity(splitAsteroid);
+            }
+        }
+        else {
+            world.removeEntity(asteroid);
+        }
+
+    }
 }

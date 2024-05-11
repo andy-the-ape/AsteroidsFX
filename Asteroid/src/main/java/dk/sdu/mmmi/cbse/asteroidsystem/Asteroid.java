@@ -23,18 +23,18 @@ public class Asteroid extends Entity {
         this.setCollisionBoxRadius(collisionBoxRadius);
     }
 
-    public Asteroid(Asteroid parentAsteroid) {
+    public Asteroid(Entity parentAsteroid, double sizeModifier) {
         this.setColor(EntityColor.LIGHTGRAY);
         this.setType(EntityType.ASTEROID);
         this.setLife(1);
         this.setX(parentAsteroid.getX());
         this.setY(parentAsteroid.getY());
         this.setSpeed(parentAsteroid.getSpeed());
-        double[] polygonCoordinates = parentAsteroid.getPolygonCoordinates();
+        double[] polygonCoordinates = parentAsteroid.getPolygonCoordinates().clone();
         for (int i = 0; i < parentAsteroid.getPolygonCoordinates().length; i++) {
-            polygonCoordinates[i] *= 0.5;
+            polygonCoordinates[i] *= sizeModifier;
         }
         this.setPolygonCoordinates(polygonCoordinates);
-        this.setCollisionBoxRadius(parentAsteroid.getCollisionBoxRadius() * 0.5);
+        this.setCollisionBoxRadius(parentAsteroid.getCollisionBoxRadius() * sizeModifier);
     }
 }

@@ -19,4 +19,8 @@ public class Bullet extends Entity {
         this.setPolygonCoordinates(2,-1,2,1,-1,1,-1,-1);
         this.setSpeed(2);
     }
+
+    public EntityType getShooterType() {
+        return shooterType;
+    }
 }
