@@ -5,20 +5,36 @@ import dk.sdu.mmmi.cbse.common.data.entities.EntityColor;
 import dk.sdu.mmmi.cbse.common.data.entities.EntityType;
 
 public class Asteroid extends Entity {
-    public Asteroid(int life, double speed, double... polygonCoordinates) {
+
+    public Asteroid(double speed, double sizeModifier) {
         this.setColor(EntityColor.GRAY);
         this.setType(EntityType.ASTEROID);
-        this.setLife(life);
-        this.setPolygonCoordinates(polygonCoordinates);
+        this.setLife(2);
         this.setSpeed(speed);
+        double collisionBoxRadius = 1;
+        double[] basePolygonCoordinates = {-8, 0, -6, 6, 0, 8, 6, 6, 8, 0, 6, -6, 0, -8, -6, -6};
+        for (int i = 0; i < basePolygonCoordinates.length; i++) {
+            basePolygonCoordinates[i] *= sizeModifier;
+            if (basePolygonCoordinates[i] > collisionBoxRadius) {
+                collisionBoxRadius = basePolygonCoordinates[i];
+            }
+        }
+        this.setPolygonCoordinates(basePolygonCoordinates);
+        this.setCollisionBoxRadius(collisionBoxRadius);
     }
+
     public Asteroid(Asteroid parentAsteroid) {
         this.setColor(EntityColor.LIGHTGRAY);
         this.setType(EntityType.ASTEROID);
-        this.setLife(parentAsteroid.getLife() - 1);
-        this.setPolygonCoordinates(parentAsteroid.getPolygonCoordinates());
+        this.setLife(1);
         this.setX(parentAsteroid.getX());
         this.setY(parentAsteroid.getY());
         this.setSpeed(parentAsteroid.getSpeed());
+        double[] polygonCoordinates = parentAsteroid.getPolygonCoordinates();
+        for (int i = 0; i < parentAsteroid.getPolygonCoordinates().length; i++) {
+            polygonCoordinates[i] *= 0.5;
+        }
+        this.setPolygonCoordinates(polygonCoordinates);
+        this.setCollisionBoxRadius(parentAsteroid.getCollisionBoxRadius() * 0.5);
     }
 }

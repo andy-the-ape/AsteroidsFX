@@ -36,18 +36,15 @@ public class AsteroidControlSystem implements IEntityProcessingService {
 
     public Entity createAsteroid(GameData gameData) {
         double[] polygonCoordinates = {-8,0,-6,6,0,8,6,6,8,0,6,-6,0,-8,-6,-6};
-        int life = random.nextInt(2,4);
-        double speed = random.nextDouble(0.1,0.6);
+        double speed = random.nextDouble(0.2,0.6);
+        double sizeModifier = random.nextDouble(1.5,3);
 
-        Asteroid asteroid = new Asteroid(life,speed,polygonCoordinates);
+        Asteroid asteroid = new Asteroid(speed, sizeModifier);
         setInitialSpawnPointAndRotation(gameData, asteroid);
         return asteroid;
     }
 
     public Entity[] createSplitAsteroids(Asteroid originalAsteroid) {
-        // Split Asteroid characteristics
-        double[] polygonCoordinates = {-5,0,-4,4,0,5,4,4,5,0,4,-4,0,-5,-4,-4};
-
         // How many pieces to split into?
         int pieces = random.nextInt(2,5);
         Entity[] splitAsteroids = new Entity[pieces];
@@ -56,7 +53,6 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             Asteroid asteroid = new Asteroid(originalAsteroid);
             asteroid.setRotation(random.nextInt(361));
         }
-
         return splitAsteroids;
     }
 

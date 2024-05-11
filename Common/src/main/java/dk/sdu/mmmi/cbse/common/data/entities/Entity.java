@@ -100,4 +100,5 @@ public class Entity implements Serializable {
     public void setRotationSpeed(double rotationSpeed) {
         this.rotationSpeed = rotationSpeed;
     }
+
 }
