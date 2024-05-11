@@ -1,7 +1,6 @@
 module Core {
     requires Common;
     requires CommonBullet;
-    requires Asteroid;
     requires javafx.graphics;    
     opens dk.sdu.mmmi.cbse.main to javafx.graphics;
     uses dk.sdu.mmmi.cbse.common.services.IGamePluginService;

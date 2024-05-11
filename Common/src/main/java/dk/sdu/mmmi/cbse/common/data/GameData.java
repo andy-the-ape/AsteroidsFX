@@ -5,8 +5,6 @@ public class GameData {
     private int displayWidth  = 800 ;
     private int displayHeight = 800;
     private final GameKeys keys = new GameKeys();
-    private long timeTick = 0;
-
 
     public GameKeys getKeys() {
         return keys;
@@ -26,14 +24,6 @@ public class GameData {
 
     public int getDisplayHeight() {
         return displayHeight;
-    }
-
-    public long getTimeTick() {
-        return timeTick;
-    }
-
-    public void setTimeTick(long timeTick) {
-        this.timeTick = timeTick;
     }
 
 

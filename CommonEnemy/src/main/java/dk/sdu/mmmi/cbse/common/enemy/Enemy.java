@@ -11,6 +11,6 @@ public class Enemy extends Entity {
         this.setLife(1);
         this.setPolygonCoordinates(-5,-5,10,0,-5,5,-8,0);
         this.setCollisionBoxRadius(8);
-        this.setSpeed(0.8);
+        this.setSpeed(0.5);
     }
 }

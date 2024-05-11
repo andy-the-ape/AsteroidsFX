@@ -1,10 +1,8 @@
 import dk.sdu.mmmi.cbse.common.enemy.EnemySPI;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import dk.sdu.mmmi.cbse.enemysystem.EnemyPlugin;
 
 module Enemy {
-    uses EnemySPI;
     uses dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
     requires Common;
     requires CommonEnemy;

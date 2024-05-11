@@ -25,14 +25,14 @@ public class EnemyControlSystem implements IEntityProcessingService {
             int randomDirectionModifier = random.nextInt(101);
 
             if (randomDirectionModifier > 70) {
-                enemy.setRotation(enemy.getRotation() + 1);
+                enemy.setRotation(enemy.getRotation() + 2);
             } else if (randomDirectionModifier < 30) {
-                enemy.setRotation(enemy.getRotation() - 1);
+                enemy.setRotation(enemy.getRotation() - 2);
             }
 
             //Shooting randomly
-            int randomTriggerHappiness = random.nextInt(101);
-            if (randomTriggerHappiness > 99) {
+            int randomTriggerHappiness = random.nextInt(1001);
+            if (randomTriggerHappiness > 997) {
                 getBulletSPIs().stream().findFirst().ifPresent(
                         spi -> {world.addEntity(spi.createBullet(enemy, gameData));}
                 );
@@ -44,12 +44,13 @@ public class EnemyControlSystem implements IEntityProcessingService {
             enemy.setX(enemy.getX() + changeX * enemy.getSpeed());
             enemy.setY(enemy.getY() + changeY * enemy.getSpeed());
 
-            //180deg turn on Arena collision
-            if (enemy.getX() == xBound || enemy.getX() == 0) {
-                enemy.setRotation(enemy.getRotation() + 180);
-            }
-            if (enemy.getY() == yBound || enemy.getY() == 0) {
-                enemy.setRotation(enemy.getRotation() + 180);
+            //Turn to point towards center on Arena collision
+            if (enemy.getX() >= xBound || enemy.getX() <= 0 || enemy.getY() >= yBound || enemy.getY() <= 0) {
+                double angleDeg = Math.toDegrees(Math.atan2(yBound/2 - enemy.getY(), xBound/2 - enemy.getX()));
+                if (angleDeg < 0) {
+                    angleDeg += 360;
+                }
+                enemy.setRotation(angleDeg);
             }
         }
     }

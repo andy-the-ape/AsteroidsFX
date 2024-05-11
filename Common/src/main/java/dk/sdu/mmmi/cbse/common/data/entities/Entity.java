@@ -6,23 +6,14 @@ import java.util.UUID;
 public class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();
-
     private EntityColor color;
     private EntityType type;
-    
     private double[] polygonCoordinates;
-
-
-    // Vector data:
     private double x;
     private double y;
-    private double dx;
-    private double dy;
     private double rotation;
-    private double speed;
-    private double acceleration;
-    private double deceleration;
     private double rotationSpeed;
+    private double speed;
     private double collisionBoxRadius;
     private int life;
 
@@ -62,22 +53,6 @@ public class Entity implements Serializable {
         this.y = y;
     }
 
-    public double getDx() {
-        return dx;
-    }
-
-    public void setDx(double dx) {
-        this.dx = dx;
-    }
-
-    public double getDy() {
-        return dy;
-    }
-
-    public void setDy(double dy) {
-        this.dy = dy;
-    }
-
     public double getRotation() {
         return rotation;
     }
@@ -90,32 +65,8 @@ public class Entity implements Serializable {
         return speed;
     }
 
-    public void setSpeed(double maxSpeed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
-    }
-
-    public double getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration(double acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    public double getDeceleration() {
-        return deceleration;
-    }
-
-    public void setDeceleration(double deceleration) {
-        this.deceleration = deceleration;
-    }
-
-    public double getRotationSpeed() {
-        return rotationSpeed;
-    }
-
-    public void setRotationSpeed(double rotationSpeed) {
-        this.rotationSpeed = rotationSpeed;
     }
 
     public double getCollisionBoxRadius() {
@@ -140,5 +91,13 @@ public class Entity implements Serializable {
 
     public void setLife(int life) {
         this.life = life;
+    }
+
+    public double getRotationSpeed() {
+        return rotationSpeed;
+    }
+
+    public void setRotationSpeed(double rotationSpeed) {
+        this.rotationSpeed = rotationSpeed;
     }
 }

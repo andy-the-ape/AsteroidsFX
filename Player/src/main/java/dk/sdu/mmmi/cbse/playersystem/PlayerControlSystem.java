@@ -18,10 +18,10 @@ public class PlayerControlSystem implements IEntityProcessingService {
         for (Entity player : world.getEntities(Player.class)) {
             // Controlling player movement and shooting
             if (gameData.getKeys().isDown(GameKeys.A)) {
-                player.setRotation(player.getRotation() - 5);
+                player.setRotation(player.getRotation() - player.getRotationSpeed());
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
-                player.setRotation(player.getRotation() + 5);
+                player.setRotation(player.getRotation() + player.getRotationSpeed());
             }
             if (gameData.getKeys().isDown(GameKeys.W)) {
                 double changeX = Math.cos(Math.toRadians(player.getRotation()));
@@ -29,30 +29,25 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setX(player.getX() + changeX * player.getSpeed());
                 player.setY(player.getY() + changeY * player.getSpeed());
             }
-            if(gameData.getKeys().isDown(GameKeys.SPACE)) {                
+            if(gameData.getKeys().isPressed(GameKeys.SPACE)) {
                 getBulletSPIs().stream().findFirst().ifPresent(
                         spi -> {world.addEntity(spi.createBullet(player, gameData));}
                 );
             }
 
-        // Keeping player in bounds
-        if (player.getX() < 0) {
-            player.setX(1);
-        }
-
-        if (player.getX() > gameData.getDisplayWidth()) {
-            player.setX(gameData.getDisplayWidth()-1);
-        }
-
-        if (player.getY() < 0) {
-            player.setY(1);
-        }
-
-        if (player.getY() > gameData.getDisplayHeight()) {
-            player.setY(gameData.getDisplayHeight()-1);
-        }
-
-                                        
+            // Keeping player in bounds
+            if (player.getX() < 0) {
+                player.setX(1);
+            }
+            if (player.getX() > gameData.getDisplayWidth()) {
+                player.setX(gameData.getDisplayWidth()-1);
+            }
+            if (player.getY() < 0) {
+                player.setY(1);
+            }
+            if (player.getY() > gameData.getDisplayHeight()) {
+                player.setY(gameData.getDisplayHeight()-1);
+            }
         }
     }
 

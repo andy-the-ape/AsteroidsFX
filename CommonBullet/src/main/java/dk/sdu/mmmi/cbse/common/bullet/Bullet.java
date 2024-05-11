@@ -12,9 +12,11 @@ public class Bullet extends Entity {
 
     public Bullet(Entity shooter) {
         this.shooterType = shooter.getType();
+        this.setX(shooter.getX());
+        this.setY(shooter.getY());
         this.setColor(shooter.getColor());
         this.setType(EntityType.BULLET);
-        this.setPolygonCoordinates(1,-1,1,1,-1,1,-1,-1);
-        this.setSpeed(10);
+        this.setPolygonCoordinates(2,-1,2,1,-1,1,-1,-1);
+        this.setSpeed(2);
     }
 }

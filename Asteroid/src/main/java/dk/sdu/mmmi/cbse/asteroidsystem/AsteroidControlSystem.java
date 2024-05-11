@@ -14,7 +14,6 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
 
-
         for (Entity asteroid : world.getEntities(Asteroid.class)) {
             // Handling out of bounds
             checkBoundsAndDeleteOutOfBoundAsteroid(gameData, world, asteroid);
@@ -37,8 +36,8 @@ public class AsteroidControlSystem implements IEntityProcessingService {
 
     public Entity createAsteroid(GameData gameData) {
         double[] polygonCoordinates = {-8,0,-6,6,0,8,6,6,8,0,6,-6,0,-8,-6,-6};
-        int life = 2;
-        double speed = random.nextDouble(0.5,1.5);
+        int life = random.nextInt(2,4);
+        double speed = random.nextDouble(0.1,0.6);
 
         Asteroid asteroid = new Asteroid(life,speed,polygonCoordinates);
         setInitialSpawnPointAndRotation(gameData, asteroid);
@@ -48,18 +47,14 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     public Entity[] createSplitAsteroids(Asteroid originalAsteroid) {
         // Split Asteroid characteristics
         double[] polygonCoordinates = {-5,0,-4,4,0,5,4,4,5,0,4,-4,0,-5,-4,-4};
-        int life = 1;
-        double speed = originalAsteroid.getSpeed();
 
         // How many pieces to split into?
         int pieces = random.nextInt(2,5);
         Entity[] splitAsteroids = new Entity[pieces];
 
         for (int i = 0; i < splitAsteroids.length; i++) {
-            Asteroid asteroid = new Asteroid(life, speed + random.nextDouble(0.1,0.3), polygonCoordinates);
-            asteroid.setX(originalAsteroid.getX());
-            asteroid.setY(originalAsteroid.getY());
-            asteroid.setRotation(random.nextInt(360));
+            Asteroid asteroid = new Asteroid(originalAsteroid);
+            asteroid.setRotation(random.nextInt(361));
         }
 
         return splitAsteroids;
@@ -76,7 +71,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         double yCenter = yBound/2;
 
         // Deciding whether to spawn outside the top, left, bottom or right boundary.
-        if (random.nextInt(3) > 1) {
+        if (random.nextInt(4) > 1) {
             //Top
             if (xCoord > yCoord) {
                 asteroid.setX(xCoord);
