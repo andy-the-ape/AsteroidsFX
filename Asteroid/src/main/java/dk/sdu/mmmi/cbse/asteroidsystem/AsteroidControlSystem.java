@@ -15,15 +15,15 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     public void process(GameData gameData, World world) {
 
 
-        for (Entity entity : world.getEntities(Asteroid.class)) {
+        for (Entity asteroid : world.getEntities(Asteroid.class)) {
             // Handling out of bounds
-            checkBoundsAndDeleteOutOfBoundAsteroid(gameData, world, entity);
+            checkBoundsAndDeleteOutOfBoundAsteroid(gameData, world, asteroid);
 
             // Movement
-            double changeX = Math.cos(Math.toRadians(entity.getRotation()));
-            double changeY = Math.sin(Math.toRadians(entity.getRotation()));
-            entity.setX(entity.getX() + changeX * entity.getSpeed());
-            entity.setY(entity.getY() + changeY * entity.getSpeed());
+            double changeX = Math.cos(Math.toRadians(asteroid.getRotation()));
+            double changeY = Math.sin(Math.toRadians(asteroid.getRotation()));
+            asteroid.setX(asteroid.getX() + changeX * asteroid.getSpeed());
+            asteroid.setY(asteroid.getY() + changeY * asteroid.getSpeed());
         }
 
         // Making more asteroids when needed
@@ -52,7 +52,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         double speed = originalAsteroid.getSpeed();
 
         // How many pieces to split into?
-        int pieces = random.nextInt(2,4);
+        int pieces = random.nextInt(2,5);
         Entity[] splitAsteroids = new Entity[pieces];
 
         for (int i = 0; i < splitAsteroids.length; i++) {

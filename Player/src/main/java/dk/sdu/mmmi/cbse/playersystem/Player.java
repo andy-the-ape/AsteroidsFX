@@ -11,5 +11,6 @@ public class Player extends Entity {
         this.setLife(1);
         this.setPolygonCoordinates(-5,-5,10,0,-5,5,-2,0);
         this.setCollisionBoxRadius(8);
+        this.setSpeed(1);
     }
 }

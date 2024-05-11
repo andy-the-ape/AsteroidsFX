@@ -5,4 +5,5 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 
 public interface EnemySPI {
     Entity createEnemy(GameData gameData);
+    void resetEnemy(Entity enemy, GameData gameData);
 }

@@ -26,8 +26,8 @@ public class PlayerControlSystem implements IEntityProcessingService {
             if (gameData.getKeys().isDown(GameKeys.W)) {
                 double changeX = Math.cos(Math.toRadians(player.getRotation()));
                 double changeY = Math.sin(Math.toRadians(player.getRotation()));
-                player.setX(player.getX() + changeX);
-                player.setY(player.getY() + changeY);
+                player.setX(player.getX() + changeX * player.getSpeed());
+                player.setY(player.getY() + changeY * player.getSpeed());
             }
             if(gameData.getKeys().isDown(GameKeys.SPACE)) {                
                 getBulletSPIs().stream().findFirst().ifPresent(
