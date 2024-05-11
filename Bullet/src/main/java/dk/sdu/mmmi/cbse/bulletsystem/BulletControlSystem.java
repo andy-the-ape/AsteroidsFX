@@ -11,16 +11,21 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 
     @Override
     public void process(GameData gameData, World world) {
+        double xBound = gameData.getDisplayWidth();
+        double yBound = gameData.getDisplayHeight();
 
         for (Entity bullet : world.getEntities(Bullet.class)) {
+            // Moves all bullets
             double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
             double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
-            bullet.setX(bullet.getX() + changeX * 3);
-            bullet.setY(bullet.getY() + changeY * 3);
+            bullet.setX(bullet.getX() + changeX * bullet.getSpeed());
+            bullet.setY(bullet.getY() + changeY * bullet.getSpeed());
+
+            // Removes bullets that are out of bounds
             if (
-                    (bullet.getX() > gameData.getDisplayWidth())
+                    (bullet.getX() > xBound)
                     || (bullet.getX() < 0)
-                    || (bullet.getY() > gameData.getDisplayHeight())
+                    || (bullet.getY() > yBound)
                     || (bullet.getY() < 0)
             ) {
                 world.removeEntity(bullet);
@@ -30,15 +35,9 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
 
     @Override
     public Entity createBullet(Entity shooter, GameData gameData) {
-        Entity bullet = new Bullet();
-        bullet.setPolygonCoordinates(1, -1, 1, 1, -1, 1, -1, -1);
-        double changeX = Math.cos(Math.toRadians(shooter.getRotation()));
-        double changeY = Math.sin(Math.toRadians(shooter.getRotation()));
-        bullet.setX(shooter.getX() + changeX * 10);
-        bullet.setY(shooter.getY() + changeY * 10);
+        Entity bullet = new Bullet(shooter);
         bullet.setRotation(shooter.getRotation());
         bullet.setCollisionBoxRadius(1);
-        bullet.setColor(shooter.getColor());
         return bullet;
     }
 }

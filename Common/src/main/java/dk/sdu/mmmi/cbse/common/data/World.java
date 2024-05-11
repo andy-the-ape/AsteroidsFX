@@ -1,8 +1,6 @@
 package dk.sdu.mmmi.cbse.common.data;
 
 import dk.sdu.mmmi.cbse.common.data.entities.Entity;
-import dk.sdu.mmmi.cbse.common.data.entities.EntityColor;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

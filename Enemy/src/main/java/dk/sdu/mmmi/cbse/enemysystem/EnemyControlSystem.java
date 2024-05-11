@@ -32,7 +32,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
             //Shooting randomly
             int randomTriggerHappiness = random.nextInt(101);
-            if (randomTriggerHappiness > 95) {
+            if (randomTriggerHappiness > 99) {
                 getBulletSPIs().stream().findFirst().ifPresent(
                         spi -> {world.addEntity(spi.createBullet(enemy, gameData));}
                 );
