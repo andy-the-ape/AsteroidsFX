@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.asteroidsystem;
+package dk.sdu.mmmi.cbse.common.asteroid;
 
 import dk.sdu.mmmi.cbse.common.data.entities.Entity;
 import dk.sdu.mmmi.cbse.common.data.entities.EntityColor;

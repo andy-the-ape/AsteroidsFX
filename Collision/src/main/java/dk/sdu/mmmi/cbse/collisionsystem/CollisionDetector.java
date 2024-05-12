@@ -1,6 +1,6 @@
 package dk.sdu.mmmi.cbse.collisionsystem;
 
-import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidSPI;
+import dk.sdu.mmmi.cbse.common.asteroid.AsteroidSPI;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.data.entities.Entity;
 import dk.sdu.mmmi.cbse.common.data.entities.EntityType;

@@ -1,10 +1,11 @@
 package dk.sdu.mmmi.cbse.asteroidsystem;
 
+import dk.sdu.mmmi.cbse.common.asteroid.Asteroid;
+import dk.sdu.mmmi.cbse.common.asteroid.AsteroidSPI;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.data.entities.Entity;
 import dk.sdu.mmmi.cbse.common.data.entities.EntityType;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-
 import java.util.Random;
 
 public class AsteroidControlSystem implements IEntityProcessingService, AsteroidSPI {
