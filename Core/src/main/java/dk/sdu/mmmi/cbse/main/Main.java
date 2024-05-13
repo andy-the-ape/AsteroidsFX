@@ -30,6 +30,10 @@ public class Main extends Application {
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
 
+    // Framerate control
+    private final long desiredFrameTime = 1_000_000_000L / 150L; // 150 frames per second
+    private long lastUpdateTime = 0L;
+
     public static void main(String[] args) {
         launch(Main.class);
     }
@@ -92,9 +96,12 @@ public class Main extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                update();
-                draw();
-                gameData.getKeys().update();
+                if (now - lastUpdateTime >= desiredFrameTime) {
+                    update();
+                    draw();
+                    gameData.getKeys().update();
+                    lastUpdateTime = now;
+                }
             }
 
         }.start();
