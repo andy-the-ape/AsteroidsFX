@@ -103,7 +103,6 @@ public class Main extends Application {
                     lastUpdateTime = now;
                 }
             }
-
         }.start();
     }
 
