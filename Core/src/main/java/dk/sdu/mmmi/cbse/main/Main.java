@@ -14,9 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
@@ -40,10 +43,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        Text text = new Text(10, 20, "Score: 0");
         text.setFill(Color.WHITE);
+
+        VBox vBox = new VBox(5, text);
+        vBox.setPadding(new Insets(10));
+
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(text);
+        gameWindow.getChildren().add(vBox);
 
         Scene scene = new Scene(gameWindow);
         scene.setFill(Color.BLACK);
