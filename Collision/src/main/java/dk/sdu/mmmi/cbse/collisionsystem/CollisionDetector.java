@@ -73,7 +73,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             //Resetting the player
             getPlayerSPIs().stream().findFirst().ifPresent(
                     playerSPI -> {
-                        playerSPI.resetPlayer(entity1.getType().equals(EntityType.PLAYER) ? entity1 : entity2, gameData);
+                        playerSPI.resetPlayer(gameData, world);
                     }
             );
         }
