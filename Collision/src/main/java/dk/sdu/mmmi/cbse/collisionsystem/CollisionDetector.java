@@ -71,7 +71,39 @@ public class CollisionDetector implements IPostEntityProcessingService {
             //Removing the bullet
             world.removeEntity(entity1.getType().equals(EntityType.BULLET) ? entity1 : entity2);
             //Resetting the player
-            System.out.println("Detected collision on player");
+            getPlayerSPIs().stream().findFirst().ifPresent(
+                    playerSPI -> {
+                        playerSPI.resetPlayer(gameData, world);
+                    }
+            );
+        }
+
+        //Enemy and Player collision
+        if ((entity1.getType().equals(EntityType.ENEMY) && entity2.getType().equals(EntityType.PLAYER))
+                || (entity1.getType().equals(EntityType.PLAYER) && entity2.getType().equals(EntityType.ENEMY))) {
+            //Resetting the enemy
+            getEnemySPIs().stream().findFirst().ifPresent(
+                    enemySPI -> {
+                        enemySPI.resetEnemy(entity1.getType().equals(EntityType.ENEMY) ? entity1 : entity2, gameData);
+                    }
+            );
+            //Resetting the player
+            getPlayerSPIs().stream().findFirst().ifPresent(
+                    playerSPI -> {
+                        playerSPI.resetPlayer(gameData, world);
+                    }
+            );
+        }
+
+        //Asteroid and Player collision
+        if ((entity1.getType().equals(EntityType.ASTEROID) && entity2.getType().equals(EntityType.PLAYER))
+                || (entity1.getType().equals(EntityType.PLAYER) && entity2.getType().equals(EntityType.ASTEROID))) {
+            //Splitting the asteroid
+            Entity asteroid = entity1.getType().equals(EntityType.ASTEROID) ? entity1 : entity2;
+            getAsteroidSPIs().stream().findFirst().ifPresent(
+                    asteroidSPI -> asteroidSPI.splitAsteroid(asteroid, world)
+            );
+            //Resetting the player
             getPlayerSPIs().stream().findFirst().ifPresent(
                     playerSPI -> {
                         playerSPI.resetPlayer(gameData, world);
@@ -85,19 +117,10 @@ public class CollisionDetector implements IPostEntityProcessingService {
             //Removing the bullet
             world.removeEntity(entity1.getType().equals(EntityType.BULLET) ? entity1 : entity2);
             //Splitting the asteroid
-            if (entity1.getType().equals(EntityType.ASTEROID)) {
-                getAsteroidSPIs().stream().findFirst().ifPresent(
-                        asteroidSPI -> {
-                            asteroidSPI.splitAsteroid(entity1, world);
-                        }
-                );
-            } else if (entity2.getType().equals(EntityType.ASTEROID)) {
-                getAsteroidSPIs().stream().findFirst().ifPresent(
-                        asteroidSPI -> {
-                            asteroidSPI.splitAsteroid(entity2, world);
-                        }
-                );
-            }
+            Entity asteroid = entity1.getType().equals(EntityType.ASTEROID) ? entity1 : entity2;
+            getAsteroidSPIs().stream().findFirst().ifPresent(
+                    asteroidSPI -> asteroidSPI.splitAsteroid(asteroid, world)
+            );
 
         }
     }
