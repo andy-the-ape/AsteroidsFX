@@ -71,6 +71,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             //Removing the bullet
             world.removeEntity(entity1.getType().equals(EntityType.BULLET) ? entity1 : entity2);
             //Resetting the player
+            System.out.println("Detected collision on player");
             getPlayerSPIs().stream().findFirst().ifPresent(
                     playerSPI -> {
                         playerSPI.resetPlayer(gameData, world);

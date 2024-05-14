@@ -33,7 +33,9 @@ public class PlayerPlugin implements IGamePluginService, PlayerSPI {
 
     @Override
     public void resetPlayer(GameData gameData, World world) {
-        stop(gameData, world);
-        start(gameData, world);
+        world.getEntities(Player.class).stream().findFirst().ifPresent(player -> {
+            player.setX((double) gameData.getDisplayHeight() /2);
+            player.setY((double) gameData.getDisplayWidth() /2);
+        });
     }
 }
