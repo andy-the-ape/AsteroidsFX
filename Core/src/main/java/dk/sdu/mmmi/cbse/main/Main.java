@@ -34,7 +34,7 @@ public class Main extends Application {
     private final Pane gameWindow = new Pane();
 
     // Framerate control
-    private final long desiredFrameTime = 1_000_000_000L / 150L; // 150 frames per second
+    private final long desiredFrameTime = 1_000_000_000L / 200L; // 150 frames per second
     private long lastUpdateTime = 0L;
 
     public static void main(String[] args) {
