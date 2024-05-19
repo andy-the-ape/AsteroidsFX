@@ -71,6 +71,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
+        Platform.setImplicitExit(true);
         timer.scheduleAtFixedRate(task, 0, 500);
 
         scoreText.setFill(Color.WHITE);
