@@ -34,8 +34,6 @@ public class CollisionDetectorTest {
         asteroid = new Asteroid(0.2, 1.8);
         worldMock.addEntity(player);
         worldMock.addEntity(asteroid);
-
-
     }
 
     @After
@@ -50,14 +48,12 @@ public class CollisionDetectorTest {
 
         assertEquals((double) gameDataMock.getDisplayWidth() /2, player.getX(), 0.1);
     }
-
     @Test
     public void playerAndAsteroidCollisionResetsPlayerYCoord() {
         collisionDetector.handleCollision(player, asteroid, gameDataMock, worldMock);
 
         assertEquals((double) gameDataMock.getDisplayHeight() /2, player.getY(), 0.1);
     }
-
     @Test
     public void playerAndAsteroidCollisionRemovesAsteroid() {
         collisionDetector.handleCollision(player, asteroid, gameDataMock, worldMock);

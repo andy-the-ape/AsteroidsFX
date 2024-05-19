@@ -43,6 +43,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
+        Platform.setImplicitExit(true);
         Text text = new Text(10, 20, "Score: 0");
         text.setFill(Color.WHITE);
 
@@ -113,7 +114,7 @@ public class Main extends Application {
         }.start();
     }
 
-    private void update() {
+    void update() {
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
             entityProcessorService.process(gameData, world);
         }
@@ -156,5 +157,13 @@ public class Main extends Application {
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
         return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
+
+    public World getWorld() {
+        return this.world;
+    }
+
+    public GameData getGameData() {
+        return this.gameData;
     }
 }
