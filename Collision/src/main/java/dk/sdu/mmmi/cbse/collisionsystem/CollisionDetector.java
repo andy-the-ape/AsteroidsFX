@@ -145,7 +145,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
         if (scoreUpdate) {
             if (scoreReset) {
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://localhost:8080/api/score/update/" + scoreIncrement))
+                        .uri(URI.create("http://localhost:8080/api/score/reset/"))
                         .PUT(HttpRequest.BodyPublishers.ofString(""))
                         .build();
                 try {
@@ -156,7 +156,7 @@ public class CollisionDetector implements IPostEntityProcessingService {
             }
             else {
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://localhost:8080/api/score/reset/"))
+                        .uri(URI.create("http://localhost:8080/api/score/update/" + scoreIncrement))
                         .PUT(HttpRequest.BodyPublishers.ofString(""))
                         .build();
                 try {
