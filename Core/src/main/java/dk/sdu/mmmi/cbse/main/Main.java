@@ -43,6 +43,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
+        Platform.setImplicitExit(true);
         Text text = new Text(10, 20, "Score: 0");
         text.setFill(Color.WHITE);
 
