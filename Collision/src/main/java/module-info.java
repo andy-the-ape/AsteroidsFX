@@ -9,5 +9,6 @@ module Collision {
     requires CommonPlayer;
     requires CommonEnemy;
     requires CommonAsteroid;
+    requires java.net.http;
     provides IPostEntityProcessingService with dk.sdu.mmmi.cbse.collisionsystem.CollisionDetector;
 }

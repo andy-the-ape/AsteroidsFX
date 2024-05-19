@@ -7,13 +7,19 @@ import dk.sdu.mmmi.cbse.common.data.entities.EntityType;
 import dk.sdu.mmmi.cbse.common.enemy.EnemySPI;
 import dk.sdu.mmmi.cbse.common.player.PlayerSPI;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Collection;
 import java.util.ServiceLoader;
 
 import static java.util.stream.Collectors.toList;
 
 public class CollisionDetector implements IPostEntityProcessingService {
-
+    HttpClient httpClient = HttpClient.newHttpClient();
     public CollisionDetector() {
     }
 
@@ -51,6 +57,9 @@ public class CollisionDetector implements IPostEntityProcessingService {
     }
 
     public void handleCollision(Entity entity1, Entity entity2, GameData gameData, World world) {
+        int scoreIncrement = 0;
+        boolean scoreUpdate = false;
+        boolean scoreReset = false;
 
         //Bullet and Enemy collision
         if ((entity1.getType().equals(EntityType.BULLET) && entity2.getType().equals(EntityType.ENEMY))
@@ -63,6 +72,8 @@ public class CollisionDetector implements IPostEntityProcessingService {
                         enemySPI.resetEnemy(entity1.getType().equals(EntityType.ENEMY) ? entity1 : entity2, gameData);
                     }
             );
+            scoreUpdate = true;
+            scoreIncrement = 1;
         }
 
         //Bullet and Player collision
@@ -76,6 +87,8 @@ public class CollisionDetector implements IPostEntityProcessingService {
                         playerSPI.resetPlayer(gameData, world);
                     }
             );
+            scoreUpdate = true;
+            scoreReset = true;
         }
 
         //Enemy and Player collision
@@ -93,6 +106,8 @@ public class CollisionDetector implements IPostEntityProcessingService {
                         playerSPI.resetPlayer(gameData, world);
                     }
             );
+            scoreUpdate = true;
+            scoreReset = true;
         }
 
         //Asteroid and Player collision
@@ -109,6 +124,8 @@ public class CollisionDetector implements IPostEntityProcessingService {
                         playerSPI.resetPlayer(gameData, world);
                     }
             );
+            scoreUpdate = true;
+            scoreReset = true;
         }
 
         //Bullet and Asteroid collision
@@ -121,7 +138,33 @@ public class CollisionDetector implements IPostEntityProcessingService {
             getAsteroidSPIs().stream().findFirst().ifPresent(
                     asteroidSPI -> asteroidSPI.splitAsteroid(asteroid, world)
             );
+            scoreUpdate = true;
+            scoreIncrement = 1;
+        }
 
+        if (scoreUpdate) {
+            if (scoreReset) {
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("http://localhost:8080/api/score/update/" + scoreIncrement))
+                        .PUT(HttpRequest.BodyPublishers.ofString(""))
+                        .build();
+                try {
+                    HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("http://localhost:8080/api/score/reset/"))
+                        .PUT(HttpRequest.BodyPublishers.ofString(""))
+                        .build();
+                try {
+                    HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

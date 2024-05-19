@@ -7,9 +7,13 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
-import java.util.Collection;
-import java.util.Map;
-import java.util.ServiceLoader;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
@@ -27,7 +31,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
     private final GameData gameData = new GameData();
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
@@ -37,16 +40,42 @@ public class Main extends Application {
     private final long desiredFrameTime = 1_000_000_000L / 200L; // 150 frames per second
     private long lastUpdateTime = 0L;
 
+    Text scoreText = new Text(10, 20, "Score: 0");
+
+    Timer timer = new Timer();
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            updateScore(scoreText);
+        }
+    };
+
+    private void updateScore(Text scoreText) {
+        System.out.println();
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/api/score"))
+                .GET().build();
+
+        try {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            scoreText.setText("Score: " + response.body());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         launch(Main.class);
     }
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Score: 0");
-        text.setFill(Color.WHITE);
+        timer.scheduleAtFixedRate(task, 0, 500);
 
-        VBox vBox = new VBox(5, text);
+        scoreText.setFill(Color.WHITE);
+
+        VBox vBox = new VBox(5, scoreText);
         vBox.setPadding(new Insets(10));
 
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
