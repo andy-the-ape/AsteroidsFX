@@ -88,7 +88,7 @@ public class Game {
         });
 
         // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getGamePluginServices()) {
+        for (IGamePluginService iGamePlugin : this.gamePluginServices) {
             iGamePlugin.start(gameData, world);
         }
         for (Entity entity : world.getEntities()) {
@@ -117,10 +117,10 @@ public class Game {
     }
 
     private void update() {
-        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
+        for (IEntityProcessingService entityProcessorService : this.entityProcessingServices) {
             entityProcessorService.process(gameData, world);
         }
-        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+        for (IPostEntityProcessingService postEntityProcessorService : this.postEntityProcessingServices) {
             postEntityProcessorService.process(gameData, world);
         }
     }
@@ -147,18 +147,6 @@ public class Game {
             polygon.setFill(Paint.valueOf(entity.getColor().name()));
         }
 
-    }
-
-    public List<IGamePluginService> getGamePluginServices() {
-        return gamePluginServices;
-    }
-
-    public List<IEntityProcessingService> getEntityProcessingServices() {
-        return entityProcessingServices;
-    }
-
-    public List<IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return postEntityProcessingServices;
     }
 
 }
