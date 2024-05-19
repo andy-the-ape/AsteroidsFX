@@ -8,6 +8,7 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -46,6 +47,7 @@ public class Game {
     }
 
     public void start(Stage window) throws Exception {
+        Platform.setImplicitExit(true);
         Text text = new Text(10, 20, "Score: 0");
         text.setFill(Color.WHITE);
 
